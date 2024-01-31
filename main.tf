@@ -44,43 +44,10 @@ module "aws_key_pair" {
 }
 
 
-module "bastion" {
-  source                        = "./modules/terraform-aws-ec2-bastion-server"
-
-  name                          = var.bastion_name
-  vpc_id                        = module.vpc.vpc_id
-  ami                           = var.bastion_ami
-  subnets                       = module.dynamic_subnets.public_subnet_ids[0]
-  assign_eip_address            = var.assign_eip_address
-  associate_public_ip_address   = var.associate_public_ip_address
-  key_name                      = module.aws_key_pair.key_name
-  user_data_template            = var.user_data_template
-  instance_type                 = var.bastion_instance_type
-  monitoring                    = var.bastion_monitoring
-  private_key                   = module.aws_key_pair.private_key
-  create_default_security_group = var.bastion_create_default_security_group
-  allowed_ports                 = var.allowed_ports
-  allowed_ports_udp             = var.allowed_ports_udp
-  ingress_cidr_blocks           = var.ingress_cidr_blocks
-
-  tags = {
-    Environment   = "production"
-    Resource_type = "ec2"
-    Terraform     = "true"
-    server        = "bastion_host"
-  }
-}
 
 
-module "ecr" {
-  source = "./modules/terraform-aws-ecr"
 
-  enabled                 = var.enable_ecr
-  enable_lifecycle_policy = var.enable_lifecycle_policy
-  image_names             = var.ecr_repo_names
-  image_tag_mutability    = var.image_tag_mutability
 
-}
 
 
 module "eks_cluster" {
@@ -155,28 +122,3 @@ module "runner_server" {
 }
 
 
-module "sonarqube" {
-  source = "./modules/terraform-aws-ec2-bastion-server"
-
-  name                          = var.sonarqube_name
-  vpc_id                        = module.vpc.vpc_id
-  ami                           = var.sonarqube_ami
-  subnets                       = module.dynamic_subnets.public_subnet_ids[0]
-  instance_type                 = var.sonarqube_instance_type
-  assign_eip_address            = var.assign_eip_address
-  associate_public_ip_address   = var.associate_public_ip_address
-  key_name                      = module.aws_key_pair.key_name
-  user_data_template            = var.sonarqube_user_data_template
-  create_default_security_group = var.sonarqube_create_default_security_group
-  allowed_ports                 = var.sonarqube_allowed_ports
-  allowed_ports_udp             = var.sonarqube_allowed_ports_udp
-  ingress_cidr_blocks           = var.sonarqube_ingress_cidr_blocks
-
-  tags = {
-    Environment   = "production"
-    Resource_type = "ec2"
-    Terraform     = "true"
-    server        = "sonarqube_server"
-  }
-  depends_on = [module.bastion]
-}
