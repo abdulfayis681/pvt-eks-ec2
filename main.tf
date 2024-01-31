@@ -98,7 +98,7 @@ module "eks_node_group" {
 
 
 module "runner_server" {
-  source = "./modules/terraform-aws-ec2-bastion-server"
+  source = "./modules/terraform-aws-ec2"
 
   name                          = var.ec2_name
   vpc_id                        = module.vpc.vpc_id
