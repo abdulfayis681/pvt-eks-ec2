@@ -18,23 +18,8 @@ aws_key_pair_name   = "production_key"
 ssh_public_key_path = "./secrets"
 generate_ssh_key    = true
 
-# bastion host
 
-bastion_name                  = "bastion-host"
-bastion_ami                   = "ami-0bddc40b31973ff95"
-bastion_instance_type         = "t2.micro"
-bastion_monitoring            = false
-user_data_template            = "user_data/pritunl.sh"
-create_default_security_group = true
-allowed_ports                 = [22, 80, 443]
-allowed_ports_udp             = [13633]
-ingress_cidr_blocks           = ["0.0.0.0/0"]
 
-#ecr variables
-enable_ecr              = true
-enable_lifecycle_policy = true
-ecr_repo_names          = ["spring-app-dev", "spring-app-prod"]
-image_tag_mutability    = "MUTABLE"
 
 #eks variables
 
@@ -53,23 +38,12 @@ max_size                    = 2
 capacity_type               = "ON_DEMAND"
 cluster_autoscaler_enabled  = true
 
-#jenkins_server variables
+#server variables
 
-ec2_name                          = "jenkins-server"
+ec2_name                          = "server"
 ec2_instance_type                 = "t2.medium"
 ec2_ami                           = "ami-0bddc40b31973ff95"
 ami_owner                         = "099720109477"
 ec2_create_default_security_group = true
 ec2_allowed_ports                 = [22, 8080]
-ec2_user_data_template            = "user_data/jenkins.sh"
 
-#sonarqube varibales
-
-sonarqube_name                          = "sonarqube-server"
-sonarqube_instance_type                 = "t2.medium"
-sonarqube_ami                           = "ami-0bddc40b31973ff95"
-sonarqube_ami_owner                     = "099720109477"
-sonarqube_create_default_security_group = true
-sonarqube_allowed_ports                 = [22, 9000]
-sonarqube_user_data_template            = "user_data/sonarqube.sh"
-sonarqube_ingress_cidr_blocks           = ["0.0.0.0/0"]
