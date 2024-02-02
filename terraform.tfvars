@@ -46,4 +46,6 @@ ec2_ami                           = "ami-0bddc40b31973ff95"
 ami_owner                         = "099720109477"
 ec2_create_default_security_group = true
 ec2_allowed_ports                 = [22, 8080]
+ec2_user_data_template            = "user_data/docker.sh"
+
 
