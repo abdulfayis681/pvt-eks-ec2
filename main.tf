@@ -116,9 +116,8 @@ module "runner_server" {
     Environment   = "production"
     Resource_type = "ec2"
     Terraform     = "true"
-    server        = "jenkins_server"
+    server        = "runner_server"
   }
-  depends_on = [module.bastion]
 }
 
 
